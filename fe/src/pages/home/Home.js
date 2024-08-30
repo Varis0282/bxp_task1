@@ -14,11 +14,14 @@ const Home = () => {
 
   const bookTicket = async (body) => {
     try {
+      if (body.from === '' || body.to === '' || body.from === body.to || body.price === 0) {
+        message.error('Please select both stations');
+      }
       dispatch(setLoading(true));
       let data = await addTicket(body);
       if (data.success) {
         message.success('Ticket booked successfully');
-      }else{
+      } else {
         message.error(data.message);
       }
       dispatch(setLoading(false));
