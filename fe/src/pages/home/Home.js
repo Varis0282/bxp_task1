@@ -15,9 +15,11 @@ const Home = () => {
   const bookTicket = async (body) => {
     try {
       dispatch(setLoading(true));
-      let { data } = await addTicket(body);
+      let data = await addTicket(body);
       if (data.success) {
         message.success('Ticket booked successfully');
+      }else{
+        message.error(data.message);
       }
       dispatch(setLoading(false));
     } catch (error) {
