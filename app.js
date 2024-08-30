@@ -3,10 +3,21 @@ import cors from 'cors';
 import ticket from './app/api/ticket.js';
 import station from './app/api/station.js';
 import dbConfig from './dbConfig.js'
+import path from 'path';
 const app = express();
 
 app.use(express.json());
 app.use(cors());
+
+__dirname = path.resolve();
+
+if(process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '/fe/build')));
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'fe', 'build', 'index.html'));
+    })
+}
+
 
 app.get('/ping', (req, res) => {
     res.send('Hello World');
